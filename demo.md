@@ -4,14 +4,14 @@
 
 * Docker
 
-## Récupérer les images docker ElasticSearch et Kibana
+## Récupéreration les images docker Elasticsearch et Kibana
 
 ```shell
 docker pull docker.elastic.co/elasticsearch/elasticsearch:8.5.1
 docker pull docker.elastic.co/kibana/kibana:8.5.1
 ```
 
-## Récupérer les images docker ElasticSearch et Kibana
+## Lancement des conteneurs ES et Kibana
 
 ```shell
 docker network create elastic
@@ -33,7 +33,7 @@ PUT /coffee
   "mappings": {
     "properties": {
       "name": { "type": "text" },
-      "price": { "type": "text" },
+      "price": { "type": "double" },
       "description": { "type": "text" },
       "query" : {
           "type" : "percolator"
@@ -66,18 +66,29 @@ POST /coffee/_doc/
 }
 ```
 
-## Requête pour aller chercher ces documents dans l'index
+## Requêtes pour aller chercher ces documents dans l'index
 
 ```json
 GET /coffee/_search
 {
-        "query": {
-                "match_all": {}
-        }
+ "query": {
+ "match_all": {}
+ }
+}
+
+GET /coffee/_search
+{
+  "query": {
+    "range": {
+      "price": {
+        "lte": 1.3
+      }
+    }
+  }
 }
 ```
 
-## Indexation de queries dans l'index
+## Indexation de requêtes dans l'index
 
 ```json
 PUT /coffee/_doc/1
