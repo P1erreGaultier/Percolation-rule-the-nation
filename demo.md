@@ -45,7 +45,7 @@ PUT /coffee
 
 ## Indexation de quelques documents
 
-```json
+```HTTP
 POST /coffee/_doc/
 {
   "name": "expresso",
@@ -68,7 +68,7 @@ POST /coffee/_doc/
 
 ## Requêtes pour aller chercher ces documents dans l'index
 
-```json
+```HTTP
 GET /coffee/_search
 {
  "query": {
@@ -90,7 +90,7 @@ GET /coffee/_search
 
 ## Indexation de requêtes dans l'index
 
-```json
+```HTTP
 PUT /coffee/_doc/1
 {
   "query": {
@@ -126,7 +126,7 @@ PUT /coffee/_doc/3
 
 ## Execution de Percolate Queries
 
-```json
+```HTTP
 GET /coffee/_search
 {
   "query": {
