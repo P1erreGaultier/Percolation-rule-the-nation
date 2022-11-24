@@ -19,4 +19,57 @@ docker run --name es-node01 --net elastic -p 9200:9200 -p 9300:9300 -t docker.el
 docker run --name kib-01 --net elastic -p 5601:5601 docker.elastic.co/kibana/kibana:8.5.1
 ```
 
-> Suivre les instructions pour configurer ElasticSearch et Kibana en local, Elastic fourni un enrollment token à saisir dans kibana, ainsi qu'un user/password
+Suivre les instructions pour configurer ElasticSearch et Kibana en local, Elastic fourni un "enrollment token" à saisir dans kibana, ainsi qu'un user/password
+
+> Pour la suite de la démonstration, utiliser la console Kibana : http://0.0.0.0:5601/app/dev_tools#/console
+Il est également possible de requêter Elasticsearch directement via HTTP.
+
+
+## Création d'un index ElasticSearch
+
+```json
+PUT /coffee
+{
+  "mappings": {
+    "properties": {
+      "name": { "type": "text" },
+      "price": { "type": "text" },
+      "description": { "type": "text" }
+    }
+  }
+}
+```
+
+## Indexation de quelques documents
+
+```json
+POST /coffee/_doc/
+{
+  "name": "expresso",
+  "price": 1,
+  "description": "the short one"
+}
+POST /coffee/_doc/
+{
+  "name": "longo",
+  "price": 1.2,
+  "description": "the long one"
+}
+POST /coffee/_doc/
+{
+  "name": "cappucino",
+  "price": 1.5,
+  "description": "the sweat one"
+}
+```
+
+## Requête pour aller chercher ces documents dans l'index
+
+```json
+GET /coffee/_search
+{
+        "query": {
+                "match_all": {}
+        }
+}
+```
