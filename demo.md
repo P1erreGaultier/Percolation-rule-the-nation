@@ -27,7 +27,7 @@ Il est également possible de requêter Elasticsearch directement via HTTP.
 
 ## Création d'un index ElasticSearch
 
-```json
+```HTTP
 PUT /coffee
 {
   "mappings": {
