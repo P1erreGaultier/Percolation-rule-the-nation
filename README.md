@@ -1,6 +1,3 @@
-# Percolation-rule-the-nation
-Percolation rule the nation
-
 # Percolation Rule the Nation ( ou comment j'ai découvert une nouvelle facon d'utiliser ElasticSearch)
 
 ## Abstract
