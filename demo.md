@@ -34,7 +34,10 @@ PUT /coffee
     "properties": {
       "name": { "type": "text" },
       "price": { "type": "text" },
-      "description": { "type": "text" }
+      "description": { "type": "text" },
+      "query" : {
+          "type" : "percolator"
+        }
     }
   }
 }
@@ -73,3 +76,73 @@ GET /coffee/_search
         }
 }
 ```
+
+## Indexation de queries dans l'index
+
+```json
+PUT /coffee/_doc/1
+{
+  "query": {
+    "match": {
+      "name": "expresso"
+    }
+  },
+  "clientName": "Pierre"
+}
+
+PUT /coffee/_doc/2
+{
+  "query": {
+    "match": {
+      "name": "hot chocolate"
+    }
+  },
+  "clientName": "Michel"
+}
+
+PUT /coffee/_doc/3
+{
+  "query": {
+    "range": {
+      "price": {
+        "lte": 0.8
+      }
+    }
+  },
+  "clientName": "Paul"
+}
+```
+
+## Execution de Percolate Queries
+
+```json
+GET /coffee/_search
+{
+  "query": {
+    "percolate": {
+      "field": "query",
+      "document": {
+        "name": "hot chocolate",
+        "price": 2.0,
+        "description": "the chocolate one"
+      }
+    }
+  }
+}
+
+GET /coffee/_search
+{
+  "query": {
+    "percolate": {
+      "field": "query",
+      "document": {
+        "name": "instant coffee",
+        "price": 0.5,
+        "description": "the instant one"
+      }
+    }
+  }
+}
+```
+
+
