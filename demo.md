@@ -28,7 +28,7 @@ Il est également possible de requêter Elasticsearch directement via HTTP.
 ## Création d'un index ElasticSearch
 
 ```HTTP
-PUT /coffee
+PUT /product
 {
   "mappings": {
     "properties": {
@@ -46,77 +46,83 @@ PUT /coffee
 ## Indexation de quelques documents
 
 ```HTTP
-POST /coffee/_doc/
+POST /product/_doc/
 {
-  "name": "expresso",
-  "price": 1,
-  "description": "the short one"
+  "name": "vélo de route",
+  "price": 500,
+  "description": "suberbe velo de route de la marque xxx"
 }
-POST /coffee/_doc/
+POST /product/_doc/
 {
-  "name": "longo",
-  "price": 1.2,
-  "description": "the long one"
+  "name": "gravel",
+  "price": 800,
+  "description": "magnifique gravel d'occasion"
 }
-POST /coffee/_doc/
+POST /product/_doc/
 {
-  "name": "cappucino",
-  "price": 1.5,
-  "description": "the sweat one"
+  "name": "vtt",
+  "price": 300,
+  "description": "extraordinaire VTT, parfait pour rouler dans les petits sentiers"
+}
+POST /product/_doc/
+{
+  "name": "machine à café",
+  "price": 12,
+  "description": "fait d'excellent café"
 }
 ```
 
 ## Requêtes pour aller chercher ces documents dans l'index
 
 ```HTTP
-GET /coffee/_search
+GET /product/_search
 {
  "query": {
  "match_all": {}
  }
 }
 
-GET /coffee/_search
+GET /product/_search
 {
   "query": {
     "range": {
       "price": {
-        "lte": 1.3
+        "lte": 400
       }
     }
   }
 }
 ```
 
-## Indexation de requêtes dans l'index
+## Indexation de requêtes de percolation dans l'index
 
 ```HTTP
-PUT /coffee/_doc/1
+PUT /product/_doc/1
 {
   "query": {
     "match": {
-      "name": "expresso"
+      "name": "VTC"
     }
   },
   "clientName": "Pierre"
 }
 
-PUT /coffee/_doc/2
+PUT /product/_doc/2
 {
   "query": {
     "match": {
-      "name": "hot chocolate"
+      "name": "Bouilloire"
     }
   },
   "clientName": "Michel"
 }
 
-PUT /coffee/_doc/3
+PUT /product/_doc/3
 {
   "query": {
     "range": {
       "price": {
-        "lte": 0.8
+        "lte": 300
       }
     }
   },
@@ -127,29 +133,43 @@ PUT /coffee/_doc/3
 ## Execution de Percolate Queries
 
 ```HTTP
-GET /coffee/_search
+GET /product/_search
 {
   "query": {
     "percolate": {
       "field": "query",
       "document": {
-        "name": "hot chocolate",
-        "price": 2.0,
-        "description": "the chocolate one"
+        "name": "VTC",
+        "price": 500,
+        "description": "Un super VTC pour alle travailler en ville"
       }
     }
   }
 }
 
-GET /coffee/_search
+GET /product/_search
 {
   "query": {
     "percolate": {
       "field": "query",
       "document": {
-        "name": "instant coffee",
-        "price": 0.5,
-        "description": "the instant one"
+        "name": "canapé",
+        "price": 200,
+        "description": "un magnifique canapé d'angle"
+      }
+    }
+  }
+}
+
+GET /product/_search
+{
+  "query": {
+    "percolate": {
+      "field": "query",
+      "document": {
+        "name": "Bouilloire",
+        "price": 20,
+        "description": "un sublissime bouilloire"
       }
     }
   }
