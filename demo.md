@@ -66,9 +66,9 @@ POST /product/_doc/
 }
 POST /product/_doc/
 {
-  "name": "machine à café",
-  "price": 12,
-  "description": "fait d'excellent café"
+  "name": "roue de vélo",
+  "price": 30,
+  "description": "une roue de vélo"
 }
 ```
 
@@ -111,7 +111,7 @@ PUT /product/_doc/2
 {
   "query": {
     "match": {
-      "name": "Bouilloire"
+      "name": "Rustines"
     }
   },
   "clientName": "Michel"
@@ -153,9 +153,9 @@ GET /product/_search
     "percolate": {
       "field": "query",
       "document": {
-        "name": "canapé",
-        "price": 200,
-        "description": "un magnifique canapé d'angle"
+        "name": "rustines",
+        "price": 8,
+        "description": "des rustines pour reparer sa roue"
       }
     }
   }
@@ -167,9 +167,9 @@ GET /product/_search
     "percolate": {
       "field": "query",
       "document": {
-        "name": "Bouilloire",
-        "price": 20,
-        "description": "un sublissime bouilloire"
+        "name": "roue de vélo",
+        "price": 50,
+        "description": "un belle roue de vélo"
       }
     }
   }
